@@ -28,3 +28,33 @@ If you are using Azure Automation for your scripts you can easily use the [Azure
 $AzureRunAsConnection = Get-AutomationConnection -Name 'AzureRunAsConnection'
 Connect-EasyGraph @AzureRunAsConnection
 ```
+
+## Examples
+
+### Get users
+```powershell
+Invoke-EasyGraphRequest -Resource '/users'
+```
+### Get users from the 'beta' endpoint
+```powershell
+Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
+```
+### Get all users with automatic paging
+```powershell
+Invoke-EasyGraphRequest -Resource '/users' -All
+```
+
+### Create a user 
+```powershell
+$body = @{
+    "accountEnabled": true,
+    "displayName": "displayName-value",
+    "mailNickname": "mailNickname-value",
+    "userPrincipalName": "upn-value@tenant-value.onmicrosoft.com",
+    "passwordProfile" : {
+        "forceChangePasswordNextSignIn": true,
+        "password": "password-value"
+    }
+}
+Invoke-EasyGraphRequest -Resource '/users' -Method POST -Body $body
+```
