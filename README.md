@@ -38,6 +38,7 @@ $AzureRunAsConnection = Get-AutomationConnection -Name 'AzureRunAsConnection'
 Connect-EasyGraph @AzureRunAsConnection
 ```
 ### Get users
+https://docs.microsoft.com/en-us/graph/api/user-list
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users'
 ```
@@ -49,7 +50,13 @@ Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users' -All
 ```
+### Get members in a specific group
+https://docs.microsoft.com/en-us/graph/api/group-list-members
+```powershell
+Invoke-EasyGraphRequest -Resource '/groups/d49ff6cb-4185-4a9e-801c-4b310dcf6791/members'
+```
 ### Create a user 
+https://docs.microsoft.com/en-us/graph/api/user-post-users
 ```powershell
 $body = @{
     accountEnabled = $true
