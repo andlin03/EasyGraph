@@ -13,6 +13,10 @@ To use the module you first have to [register your app](https://docs.microsoft.c
 
 For Certificate and Client Secret authentication your app need Application permissions, and for Device Code authentication your app need Delegated permissions.
 
+Device Code authentication also requires that your app has a Redirect URI specified (for example http://localhost or https://login.microsoftonline.com/common/oauth2/nativeclient), and that your App is configured to be treated as a Public Client. 
+
+You can find mor information about [App Registrations in the Microsoft documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-desktop-app-registration). 
+
 ### Create a certificate
 If you plan to use Certificate Authentication you can create a certificate with just a few lines of PowerShell code
 ```powershell
@@ -28,9 +32,11 @@ If you are using Azure Automation for your scripts you can easily use the [Azure
 $AzureRunAsConnection = Get-AutomationConnection -Name 'AzureRunAsConnection'
 Connect-EasyGraph @AzureRunAsConnection
 ```
-
 ## Examples
-
+## Connect to Microsoft Graph
+```powershell
+Connect-EasyGraph -AppId $AppId -TenantId $TenantId -DeviceCode
+```
 ### Get users
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users'
@@ -43,7 +49,6 @@ Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users' -All
 ```
-
 ### Create a user 
 ```powershell
 $body = @{
