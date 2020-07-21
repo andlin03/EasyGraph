@@ -52,8 +52,8 @@ Invoke-EasyGraphRequest -Resource '/users' -All
 ### Create a user 
 ```powershell
 $body = @{
-    accountEnabled= $true
-    displayName= 'displayName-value'
+    accountEnabled = $true
+    displayName = 'displayName-value'
     mailNickname = 'mailNickname-value'
     userPrincipalName = 'upn-value@tenant-value.onmicrosoft.com'
     passwordProfile = @{
