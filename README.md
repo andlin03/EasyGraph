@@ -1,5 +1,5 @@
 # EasyGraph
-EasyGraph is a PowerShell module that simplifies working with [Microsoft Graph](https://docs.microsoft.com/en-us/graph/) from PowerShell. The module manages authentication, paging and throttling. 
+EasyGraph is a PowerShell module that simplifies working with [Microsoft Graph](https://docs.microsoft.com/en-us/graph/) from PowerShell. The module manages authentication, paging and throttling without having to fiddle with JSON requests and responses. 
 
 ## Get Started!
 
@@ -27,7 +27,7 @@ New-SelfSignedCertificate -DnsName $CertName -CertStoreLocation Cert:\LocalMachi
 After the certificate is created you must export the public key and [upload it to your App](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#upload-a-certificate-or-create-a-secret-for-signing-in). 
 
 ## Examples
-### Connect to Microsoft Graph
+### Connect to Microsoft Graph with DeviceCode
 ```powershell
 Connect-EasyGraph -AppId $AppId -TenantId $TenantId -DeviceCode
 ```
@@ -38,6 +38,7 @@ $AzureRunAsConnection = Get-AutomationConnection -Name 'AzureRunAsConnection'
 Connect-EasyGraph @AzureRunAsConnection
 ```
 ### Get users
+https://docs.microsoft.com/en-us/graph/api/user-list
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users'
 ```
@@ -49,7 +50,18 @@ Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users' -All
 ```
+### Get the 'Sales' group
+https://docs.microsoft.com/en-us/graph/query-parameters
+```powershell
+$group = Invoke-EasyGraphRequest -Resource '/groups?$filter=displayname eq ''Sales'''
+```
+### Get members of the 'Sales' group
+https://docs.microsoft.com/en-us/graph/api/group-list-members
+```powershell
+Invoke-EasyGraphRequest -Resource "/groups/$($group.id)/members"
+```
 ### Create a user 
+https://docs.microsoft.com/en-us/graph/api/user-post-users
 ```powershell
 $body = @{
     accountEnabled = $true
