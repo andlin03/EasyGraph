@@ -1,4 +1,56 @@
 ﻿function Invoke-EasyGraphRequest {
+<#
+.SYNOPSIS
+    Invokes a query to Microsoft Graph
+
+.DESCRIPTION
+    Invokes a query to Microsoft Graph using the Access Token previously retrieved with Connect-EasyGraph.
+    Returns the response from Microsoft Graph, with automatic paging and throttling handling.
+
+.EXAMPLE
+    # Lists first page of all user resources
+    Invoke-EasyGraphRequest -Resource '/users'
+
+.EXAMPLE
+    # Lists all user resources
+    Invoke-EasyGraphRequest -Resource '/users' -All
+
+.EXAMPLE
+    # Lists all user resources from the 'beta' endpoint
+    Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta -All
+
+.EXAMPLE
+    # Create a user
+    $body = @{
+        "accountEnabled": true,
+        "displayName": "displayName-value",
+        "mailNickname": "mailNickname-value",
+        "userPrincipalName": "upn-value@tenant-value.onmicrosoft.com",
+        "passwordProfile" : {
+            "forceChangePasswordNextSignIn": true,
+            "password": "password-value"
+        }
+    }
+    Invoke-EasyGraphRequest -Resource '/users' -Method POST -Body $body
+
+.PARAMETER Resource
+    Specifies the resource you want to access
+
+.PARAMETER Method
+    Specifies the HTTP Method for the request. If no method is specified, a GET request will be sent
+
+.PARAMETER APIVersion
+    Specified the version of the Microsoft Graph API you are using. Default is '1.0'.
+
+.PARAMETER Body
+    Specifies the Body that will be sent in your request. Only required for POST, PATCH and PUT Methods.
+
+.PARAMETER All
+    Overrides the page size settings, and returns all matching results.
+
+.OUTPUTS
+    The data that you requested or the result of the operation. The response message can be empty for some operations.
+#>
     Param
         (
             [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
@@ -6,14 +58,14 @@
 
             [Parameter(ValueFromPipelineByPropertyName=$true)]
             [ValidateSet('GET','POST','PATCH','PUT','DELETE')]
-            $Method = 'GET',
+            [string]$Method = 'GET',
 
             [Parameter(ValueFromPipelineByPropertyName=$true)]
             [ValidateSet('v1.0','beta')]
-            $APIVersion = 'v1.0',
+            [string]$APIVersion = 'v1.0',
 
             [Parameter(ValueFromPipelineByPropertyName=$true)]
-            $Body,
+            [object]$Body,
 
             [Parameter(ValueFromPipelineByPropertyName=$true)]
             [switch]$All
