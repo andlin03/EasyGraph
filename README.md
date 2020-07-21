@@ -52,13 +52,13 @@ Invoke-EasyGraphRequest -Resource '/users' -All
 ### Create a user 
 ```powershell
 $body = @{
-    "accountEnabled": true,
-    "displayName": "displayName-value",
-    "mailNickname": "mailNickname-value",
-    "userPrincipalName": "upn-value@tenant-value.onmicrosoft.com",
-    "passwordProfile" : {
-        "forceChangePasswordNextSignIn": true,
-        "password": "password-value"
+    accountEnabled= $true
+    displayName= 'displayName-value'
+    mailNickname = 'mailNickname-value'
+    userPrincipalName = 'upn-value@tenant-value.onmicrosoft.com'
+    passwordProfile = @{
+        forceChangePasswordNextSignIn = $true
+        password = 'password-value'
     }
 }
 Invoke-EasyGraphRequest -Resource '/users' -Method POST -Body $body
