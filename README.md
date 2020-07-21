@@ -47,10 +47,12 @@ https://docs.microsoft.com/en-us/graph/api/user-list
 Invoke-EasyGraphRequest -Resource '/users'
 ```
 ### Get users from the 'beta' endpoint
+https://docs.microsoft.com/en-us/graph/use-the-api#version
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
 ```
 ### Get all users with automatic paging
+https://docs.microsoft.com/en-us/graph/paging
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users' -All
 ```
