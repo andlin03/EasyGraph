@@ -14,7 +14,7 @@ To use the module you first have to [register your app](https://docs.microsoft.c
 For Certificate and Client Secret authentication your app need Application permissions, and for Device Code authentication your app need Delegated permissions.
 
 ### Create a certificate
-If you are planning to use Certificate Authentication you can create a certificate with just a few lines of PowerShell code
+If you plan to use Certificate Authentication you can create a certificate with just a few lines of PowerShell code
 ```powershell
 $CertName = $env:computername
 $NotAfter = (Get-Date).AddYears(2) #Create a certificate with two years validity
