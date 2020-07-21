@@ -27,7 +27,7 @@ New-SelfSignedCertificate -DnsName $CertName -CertStoreLocation Cert:\LocalMachi
 After the certificate is created you must export the public key and [upload it to your App](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#upload-a-certificate-or-create-a-secret-for-signing-in). 
 
 ## Examples
-### Connect to Microsoft Graph
+### Connect to Microsoft Graph with DeviceCode
 ```powershell
 Connect-EasyGraph -AppId $AppId -TenantId $TenantId -DeviceCode
 ```
