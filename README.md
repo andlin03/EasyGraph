@@ -50,10 +50,15 @@ Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
 ```powershell
 Invoke-EasyGraphRequest -Resource '/users' -All
 ```
-### Get members in a specific group
+### Get the 'Sales' group
+https://docs.microsoft.com/en-us/graph/query-parameters
+```powershell
+$group = Invoke-EasyGraphRequest -Resource '/groups?$filter=displayname eq ''Sales'''
+```
+### Get members of the 'Sales' group
 https://docs.microsoft.com/en-us/graph/api/group-list-members
 ```powershell
-Invoke-EasyGraphRequest -Resource '/groups/d49ff6cb-4185-4a9e-801c-4b310dcf6791/members'
+Invoke-EasyGraphRequest -Resource "/groups/$($group.id)/members"
 ```
 ### Create a user 
 https://docs.microsoft.com/en-us/graph/api/user-post-users
