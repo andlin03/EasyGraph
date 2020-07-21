@@ -23,7 +23,7 @@ New-SelfSignedCertificate -DnsName $CertName -CertStoreLocation Cert:\LocalMachi
 After the certificate is created you must export the public key and [upload it to your App](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#upload-a-certificate-or-create-a-secret-for-signing-in). 
 
 ### Connect with Azure Automation
-If you are using Azure Automation for your scripts you can easily use the Azure Run As Account to access Microsoft Graph
+If you are using Azure Automation for your scripts you can easily use the [Azure Run As Account](https://docs.microsoft.com/en-us/azure/automation/manage-runas-account) to access Microsoft Graph
 ```powershell
 $AzureRunAsConnection = Get-AutomationConnection -Name 'AzureRunAsConnection'
 Connect-EasyGraph @AzureRunAsConnection
