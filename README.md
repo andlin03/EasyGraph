@@ -15,7 +15,7 @@ For Certificate and Client Secret authentication your app need Application permi
 
 Device Code authentication also requires that your app has a Redirect URI specified (for example http://localhost or https://login.microsoftonline.com/common/oauth2/nativeclient), and that your App is configured to be treated as a Public Client. 
 
-You can find mor information about [App Registrations in the Microsoft documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-desktop-app-registration). 
+You can find more information about [App Registrations in the Microsoft documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-desktop-app-registration). 
 
 ### Create a certificate
 If you plan to use Certificate Authentication you can create a certificate with just a few lines of PowerShell code
