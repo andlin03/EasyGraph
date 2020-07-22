@@ -72,8 +72,6 @@
 
         )
     begin {
-        if (-not $GraphConnection.AccessToken) {
-            throw "You must call Connect-ALGraph first"
 
         if (($GraphConnection.Expires - [DateTime]::UtcNow).TotalSeconds -lt 300 -or -not $GraphConnection.AccessToken) {
             Get-EasyGraphAuthToken
