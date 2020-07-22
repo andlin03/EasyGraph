@@ -12,7 +12,7 @@
     }
 
     $JWTPayLoad = @{
-        aud = "https://login.microsoftonline.com/$($GraphConnection.TenantName)/oauth2/token"
+        aud = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/token"
         exp = $UTCNow+120
         iss = $GraphConnection.AppId
         jti = [guid]::NewGuid()
@@ -52,7 +52,7 @@
             scope = 'https://graph.microsoft.com/.default'
             grant_type = 'client_credentials'
         }
-        Uri = "https://login.microsoftonline.com/$($GraphConnection.TenantName)/oauth2/v2.0/token"
+        Uri = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/v2.0/token"
         Headers = @{Authorization = "Bearer $JWT"}
     }
 

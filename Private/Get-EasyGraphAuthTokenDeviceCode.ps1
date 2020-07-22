@@ -5,7 +5,7 @@
 
     $DeviceCodeRequestParams = @{
         Method = 'POST'
-        Uri    = "https://login.microsoftonline.com/$($GraphConnection.TenantName)/oauth2/devicecode"
+        Uri    = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/devicecode"
         Body   = @{
             client_id = $GraphConnection.AppId
             resource  = 'https://graph.microsoft.com/'
@@ -18,7 +18,7 @@
 
     $TokenRequestParams = @{
         Method = 'POST'
-        Uri    = "https://login.microsoftonline.com/$($GraphConnection.TenantName)/oauth2/token"
+        Uri    = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/token"
         Body   = @{
             grant_type = "urn:ietf:params:oauth:grant-type:device_code"
             code       = $DeviceCodeRequest.device_code

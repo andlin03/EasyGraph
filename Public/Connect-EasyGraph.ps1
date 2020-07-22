@@ -8,15 +8,15 @@
 
 .EXAMPLE
     # Connect using a client certificate
-    Connect-EasyGraph -TenantName 'contoso.onmicrosoft.com' -AppId $AppId -CertificateThumbprint $CertificateThumbprint
+    Connect-EasyGraph -TenantId 'contoso.onmicrosoft.com' -AppId $AppId -CertificateThumbprint $CertificateThumbprint
 
 .EXAMPLE
     # Connect using a client secret
-    Connect-EasyGraph -TenantName 'contoso.onmicrosoft.com' -AppId $AppId -ClientSecret $ClientSecret
+    Connect-EasyGraph -TenantId 'contoso.onmicrosoft.com' -AppId $AppId -ClientSecret $ClientSecret
 
 .EXAMPLE
     # Connect using device code
-    Connect-EasyGraph -TenantName 'contoso.onmicrosoft.com' -AppId $AppId -DeviceCode
+    Connect-EasyGraph -TenantId 'contoso.onmicrosoft.com' -AppId $AppId -DeviceCode
 
 .EXAMPLE
     # Connect using an Azure Automation Run As Account
@@ -24,7 +24,7 @@
     Connect-EasyGraph @AzureRunAsConnection
 
 .PARAMETER TenantId
-    Specifies the name or the id of the Azure AD tenant
+    Specifies the name or the id or name of the Azure AD tenant
 
 .PARAMETER AppId
     Specifies the id of the Azure AD App you are conecting with
@@ -79,21 +79,11 @@
         [switch]$DeviceCode
     )
 
-    $GraphConnection.TenantName = $TenantId
+    $GraphConnection.TenantId = $TenantId
     $GraphConnection.AppId = $AppId
     $GraphConnection.ClientSecret = $ClientSecret
     $GraphConnection.CertificateThumbprint = $CertificateThumbprint
     $GraphConnection.AuthType = $PSCmdlet.ParameterSetName
 
-    switch ($PSCmdlet.ParameterSetName) {
-        'Certificate' {
-            Get-EasyGraphAuthTokenCert
-        }
-        'ClientSecret' {
-            Get-EasyGraphAuthTokenClientSecret
-        }
-        'DeviceCode' {
-            Get-EasyGraphAuthTokenDeviceCode
-        }
-    }
+    Get-EasyGraphAuthToken
 }

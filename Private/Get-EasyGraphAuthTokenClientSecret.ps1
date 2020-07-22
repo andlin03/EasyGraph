@@ -1,7 +1,7 @@
 ﻿function Get-EasyGraphAuthTokenClientSecret {
     param()
 
-    $AuthURI         = "https://login.microsoftonline.com/$($GraphConnection.TenantName)/oauth2/v2.0/token"
+    $AuthURI         = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/v2.0/token"
 
     $TokenRequestBody = @{
         client_id     = $GraphConnection.AppId

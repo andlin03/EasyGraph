@@ -1,5 +1,5 @@
 ﻿$script:GraphConnection = @{
-    TenantName = $null
+    TenantId = $null
     AppId = $null
     CertificateThumbprint = $null
     ClientSecret = $null

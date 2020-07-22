@@ -19,7 +19,7 @@
     Connect-EasyGraph
 #>
 param()
-    $GraphConnection.TenantName = $null
+    $GraphConnection.TenantId = $null
     $GraphConnection.AppId = $null
     $GraphConnection.CertificateThumbprint = $null
 

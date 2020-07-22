@@ -74,23 +74,11 @@
     begin {
         if (-not $GraphConnection.AccessToken) {
             throw "You must call Connect-ALGraph first"
+
+        if (($GraphConnection.Expires - [DateTime]::UtcNow).TotalSeconds -lt 300 -or -not $GraphConnection.AccessToken) {
+            Get-EasyGraphAuthToken
         }
 
-        if (($GraphConnection.Expires - [DateTime]::UtcNow).TotalSeconds -lt 300) {
-            #Token about to expire, renew...
-            Write-Verbose "Authentication Token expired, reconnecting..."
-            switch ($GraphConnection.AuthType) {
-                'Certificate' {
-                    Get-EasyGraphAuthTokenCert
-                }
-                'ClientSecret' {
-                    Get-EasyGraphAuthTokenClientSecret
-                }
-                'DeviceCode' {
-                    Get-EasyGraphAuthTokenDeviceCode
-                }
-            }
-        }
     } process {
         $Headers = @{
             Headers = @{
