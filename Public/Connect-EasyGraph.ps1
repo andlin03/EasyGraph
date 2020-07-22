@@ -55,7 +55,7 @@
         [Parameter(ParameterSetName='Certificate',Mandatory=$true)]
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
-        [Alias('TenantName')]
+        [Alias('TenantName','Organization')]
         [string]$TenantId,
 
         [Parameter(ParameterSetName='Certificate',Mandatory=$true)]

@@ -32,7 +32,7 @@
     Description = 'Provides a wrapper for Microsoft Graph REST API, and handles authentication, paging and throttling.'
 
     # Minimum version of the PowerShell engine required by this module
-    PowerShellVersion = '3.0'
+    PowerShellVersion = '5.1'
 
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
@@ -101,7 +101,7 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags = @('PSEdition_Desktop', 'PSEdition_Core', 'Graph', 'Microsoft', 'PowerShell', 'Office365', 'Automation')
+            Tags = @('PSEdition_Desktop', 'PSEdition_Core', 'Windows', 'Graph', 'Microsoft', 'PowerShell', 'Office365', 'Automation')
 
             # A URL to the license for this module.
             # LicenseUri = ''

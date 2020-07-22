@@ -74,6 +74,9 @@
     begin {
 
         if (($GraphConnection.Expires - [DateTime]::UtcNow).TotalSeconds -lt 300 -or -not $GraphConnection.AccessToken) {
+            if ($GraphConnection.AccessToken) {
+                Write-Verbose 'Renewing Access Token'
+            }
             Get-EasyGraphAuthToken
         }
 
@@ -124,7 +127,7 @@
         } while ($ResponseStatus -eq 429 -or ($All -and $res.'@odata.nextLink'))
 
         if ($res.'@odata.nextLink' -and -not $All) {
-                Write-Warning "More results available, use -All to see all results"
+            Write-Warning "More results available, use -All to see all results"
         }
     }
 }
