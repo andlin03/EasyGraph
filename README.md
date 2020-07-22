@@ -86,6 +86,10 @@ Invoke-EasyGraphRequest -Resource '/users' -Method POST -Body $body
 ```powershell
 Disconnect-EasyGraph
 ```
+
+## Issues, Requests, Bugs
+* Please submit via the [Issues](https://github.com/andlin03/EasyGraph/issues) link above
+
 ## Changelog
 ### 1.0.0 (2020-07-21)
 Initial release
