@@ -1,5 +1,6 @@
 # EasyGraph
 EasyGraph is a PowerShell module that simplifies working with [Microsoft Graph](https://docs.microsoft.com/en-us/graph/) from PowerShell. The module manages authentication, paging and throttling without having to fiddle with JSON requests and responses. 
+The EasyGraph module is designed for use in unattended scripts, and supports Azure Automation. 
 
 ## Get Started!
 
