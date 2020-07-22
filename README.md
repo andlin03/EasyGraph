@@ -10,11 +10,11 @@ The EasyGraph module is installed from [PowerShell Gallery](https://www.powershe
 Install-Module -Name EasyGraph
 ```
 ### Register your App
-To use the module you first have to [register your app](https://docs.microsoft.com/en-us/graph/auth-register-app-v2) and [delegate permissions and consents](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent) for the type of requests your script will use. 
+To use the module you first have to [register your app](https://docs.microsoft.com/en-us/graph/auth-register-app-v2) in Azure AD and [delegate permissions and consents](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent) for the type of requests your script will use. 
 
-For Certificate and Client Secret authentication your app need Application permissions, and for Device Code authentication your app need Delegated permissions.
+For Certificate and Client Secret authentication your App need Application permissions, and for Device Code authentication your App need Delegated permissions.
 
-Device Code authentication also requires that your app has a Redirect URI specified (for example http://localhost or https://login.microsoftonline.com/common/oauth2/nativeclient), and that your App is configured to be treated as a Public Client. 
+Device Code authentication also requires that your App has a Redirect URI specified (for example http://localhost or https://login.microsoftonline.com/common/oauth2/nativeclient), and that your App is configured to be treated as a Public Client. 
 
 You can find more information about [App Registrations in the Microsoft documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-desktop-app-registration). 
 
