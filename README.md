@@ -3,8 +3,8 @@ EasyGraph is a PowerShell module that simplifies working with [Microsoft Graph](
 The EasyGraph module is designed for use in unattended scripts, and supports [Azure Automation](https://azure.microsoft.com/en-us/services/automation/). 
 
 Supported authentication methods:
-* Certificate based authentication with Thumbprint
-* Client Secret
+* Certificate based authentication with thumbprint
+* Client credentials
 * Device Code
 
 Preview authentication metods: 
