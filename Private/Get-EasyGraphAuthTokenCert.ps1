@@ -1,8 +1,22 @@
 ﻿function Get-EasyGraphAuthTokenCert {
 
-    param()
+    param(
+        [Parameter(ParameterSetName='CertStore',Mandatory=$true)]
+        [switch]$CertStore,
 
-    $Certificate = Get-ChildItem -Path "cert:\*\My\$($GraphConnection.CertificateThumbprint)" -Recurse | Select-Object -First 1
+        [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
+        [switch]$Pfx
+    )
+
+    if ($CertStore) {
+        $Certificate = Get-ChildItem -Path "cert:\*\My\$($GraphConnection.CertificateThumbprint)" -Recurse | Select-Object -First 1
+    }
+
+    if ($Pfx) {
+        $Certificate = New-Object -TypeName 'System.Security.Cryptography.X509Certificates.X509Certificate2Collection'
+        $Certificate.Import($GraphConnection.PfxFilePath,[System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($GraphConnection.PfxPassword)),[System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::PersistKeySet)
+    }
+
     $UTCNow = [int]([DateTime]::UtcNow - (New-Object DateTime 1970,1,1,0,0,0,([DateTimeKind]::Utc))).TotalSeconds
 
     $JWTHeader = @{
@@ -29,7 +43,7 @@
     $HashAlgorithm = [Security.Cryptography.HashAlgorithmName]::SHA256
 
     if (-not $Certificate) {
-        throw "Certificate with thumbprint $($GraphConnection.CertificateThumbprint) not found"
+        throw "Certificate could not be loaded"
     }
 
     if ($Certificate.HasPrivateKey -and -not $Certificate.PrivateKey) {

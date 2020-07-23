@@ -6,6 +6,8 @@
     AccessToken = $null
     Expires = [DateTime]::UtcNow
     AuthType = $null
+    PfxFilePath = $null
+    PfxPassword = $null
 }
 
 Get-ChildItem -Force -Path $PSScriptRoot -Filter *.ps1 -Recurse | ForEach-Object {

@@ -6,6 +6,27 @@
 .DESCRIPTION
     Creates an authenticated connection to Microsoft Graph. The authentication can be made using a certificate, client secret or device code.
 
+.PARAMETER TenantId
+    Specifies the name or the id or name of the Azure AD tenant
+
+.PARAMETER AppId
+    Specifies the id of the Azure AD App you are conecting with
+
+.PARAMETER CertificateThumbprint
+    The Certificate Thumbprint of a client certificate. The public key of the certificate must be registered in your App Registration.
+
+.PARAMETER ClientSecret
+    The Client Secret used to connect. The Secret must be registered in your App Registration.
+
+.PARAMETER DeviceCode
+    Denotes that you are connecting with a Device Code.
+
+.PARAMETER PfxFilePath
+    The full path to the Pfx file you are authenticating with. The public key of the certificate must be registered in your App Registration.
+
+.PARAMETER PfxPassword
+    The password of the Pfx certificate.
+
 .EXAMPLE
     # Connect using a client certificate
     Connect-EasyGraph -TenantId 'contoso.onmicrosoft.com' -AppId $AppId -CertificateThumbprint $CertificateThumbprint
@@ -23,20 +44,9 @@
     $AzureRunAsConnection = Get-AutomationConnection -Name 'AzureRunAsConnection'
     Connect-EasyGraph @AzureRunAsConnection
 
-.PARAMETER TenantId
-    Specifies the name or the id or name of the Azure AD tenant
-
-.PARAMETER AppId
-    Specifies the id of the Azure AD App you are conecting with
-
-.PARAMETER CertificateThumbprint
-    The Certificate Thumbprint of a client certificate. The public key of the certificate must be registered in your App Registration.
-
-.PARAMETER ClientSecret
-    The Client Secret used to connect. The Secret must be registered in your App Registration.
-
-.PARAMETER DeviceCode
-    Denotes that you are connecting with a Device Code.
+.EXAMPLE
+    # Connect using a pfx file
+    Connect-EasyGraph -TenantId 'contoso.onmicrosoft.com' -AppId $AppId -PfxFilePath 'c:\cert.pfx' -PfxPassword (ConvertTo-Securestring -AsPlainText '1234' -Force)
 
 .INPUTS
     None
@@ -52,24 +62,32 @@
     [CmdletBinding()]
     Param
     (
-        [Parameter(ParameterSetName='Certificate',Mandatory=$true)]
+        [Parameter(ParameterSetName='Thumbprint',Mandatory=$true)]
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
+        [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
         [Alias('TenantName','Organization')]
         [string]$TenantId,
 
-        [Parameter(ParameterSetName='Certificate',Mandatory=$true)]
+        [Parameter(ParameterSetName='Thumbprint',Mandatory=$true)]
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
+        [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
         [Alias('ApplicationId')]
         [string]$AppId,
 
-        [Parameter(ParameterSetName='Certificate',Mandatory=$true)]
+        [Parameter(ParameterSetName='Thumbprint',Mandatory=$true)]
         [Alias('Thumbprint')]
         [string]$CertificateThumbprint,
 
+        [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
+        [string]$PfxFilePath,
+
+        [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
+        [securestring]$PfxPassword,
+
         # Dummy parameter to be able to use splatting with Azure Automation Connection objects
-        [Parameter(ParameterSetName='Certificate',Mandatory=$false,DontShow)]
+        [Parameter(ParameterSetName='Thumbprint',Mandatory=$false,DontShow)]
         [string]$SubscriptionId,
 
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
@@ -84,6 +102,8 @@
     $GraphConnection.ClientSecret = $ClientSecret
     $GraphConnection.CertificateThumbprint = $CertificateThumbprint
     $GraphConnection.AuthType = $PSCmdlet.ParameterSetName
+    $GraphConnection.PfxFilePath = $PfxFilePath
+    $GraphConnection.PfxPassword = $PfxPassword
 
     Get-EasyGraphAuthToken
 }

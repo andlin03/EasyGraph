@@ -2,8 +2,11 @@
     param()
 
     switch ($GraphConnection.AuthType) {
-        'Certificate' {
-            Get-EasyGraphAuthTokenCert
+        'Thumbprint' {
+            Get-EasyGraphAuthTokenCert -CertStore
+        }
+        'Pfx' {
+            Get-EasyGraphAuthTokenCert -Pfx
         }
         'ClientSecret' {
             Get-EasyGraphAuthTokenClientSecret
