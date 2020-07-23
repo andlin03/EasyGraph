@@ -21,9 +21,14 @@ You can find more information about [App Registrations in the Microsoft document
 ### Create a certificate
 If you plan to use Certificate Authentication you can create a certificate with just a few lines of PowerShell code
 ```powershell
-$CertName = $env:computername
-$NotAfter = (Get-Date).AddYears(2) #Create a certificate with two years validity
-$Cert = New-SelfSignedCertificate -DnsName $CertName -CertStoreLocation Cert:\LocalMachine\My -NotAfter $NotAfter
+$Params = @{
+    NotBefore         = Get-Date
+    NotAfter          = (Get-Date).AddYears(2)   #Create a certificate with two years validity
+    DnsName           = $env:computername
+    CertStoreLocation = 'Cert:\LocalMachine\My'
+    Provider          = 'Microsoft Enhanced RSA and AES Cryptographic Provider'
+}
+$Certificate = New-SelfSignedCertificate @Params
 ```
 After the certificate is created you must export the public key and [upload it to your App](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#upload-a-certificate-or-create-a-secret-for-signing-in). 
 
@@ -34,7 +39,7 @@ Connect-EasyGraph -AppId $AppId -TenantId $TenantId -DeviceCode
 ```
 ### Connect with Certificate
 ```powershell
-Connect-EasyGraph -AppId $AppId -TenantId $TenantId -CertificateThumbprint $Cert.Thumbprint
+Connect-EasyGraph -AppId $AppId -TenantId $TenantId -CertificateThumbprint $Certificate.Thumbprint
 ```
 ### Connect with Azure Automation
 If you are using Azure Automation for your scripts you can use the [Azure Run As Account](https://docs.microsoft.com/en-us/azure/automation/manage-runas-account) to access Microsoft Graph
