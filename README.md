@@ -97,5 +97,9 @@ Disconnect-EasyGraph
 
 ## Changelog
 
+### Prerelease
+- Added support for Pfx certificates
+- Code cleanup
+
 ### 1.0.0 - 2020-07-21
 - Initial release
