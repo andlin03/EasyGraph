@@ -14,7 +14,7 @@
 
     if ($Pfx) {
         $Certificate = New-Object -TypeName 'System.Security.Cryptography.X509Certificates.X509Certificate2Collection'
-        $Certificate.Import($GraphConnection.PfxFilePath,[System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($GraphConnection.PfxPassword)),[System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::PersistKeySet)
+        $Certificate.Import($GraphConnection.PfxFilePath,[System.Runtime.InteropServices.Marshal]::PtrToStringBSTR([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($GraphConnection.PfxPassword)),[System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::PersistKeySet)
         $Certificate = $Certificate | Select-Object -Last 1 #If there are more certificates in the chain
     }
 
