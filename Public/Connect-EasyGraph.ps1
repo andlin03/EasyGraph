@@ -81,7 +81,8 @@
         [string]$CertificateThumbprint,
 
         [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
-        [string]$PfxFilePath,
+        [ValidateScript({Test-Path $_ -PathType Leaf})]
+        [System.IO.FileInfo]$PfxFilePath,
 
         [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
         [securestring]$PfxPassword,
@@ -102,8 +103,13 @@
     $GraphConnection.ClientSecret = $ClientSecret
     $GraphConnection.CertificateThumbprint = $CertificateThumbprint
     $GraphConnection.AuthType = $PSCmdlet.ParameterSetName
-    $GraphConnection.PfxFilePath = $PfxFilePath
-    $GraphConnection.PfxPassword = $PfxPassword
+    if ($PfxFilePath) {
+        $GraphConnection.PfxFilePath = Resolve-Path -Path $PfxFilePath
+        $GraphConnection.PfxPassword = $PfxPassword
+    } else {
+        $GraphConnection.PfxFilePath = $null
+        $GraphConnection.PfxPassword = $null
+    }
 
     Get-EasyGraphAuthToken
 }

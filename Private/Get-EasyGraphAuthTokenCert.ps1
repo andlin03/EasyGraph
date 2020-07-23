@@ -15,6 +15,7 @@
     if ($Pfx) {
         $Certificate = New-Object -TypeName 'System.Security.Cryptography.X509Certificates.X509Certificate2Collection'
         $Certificate.Import($GraphConnection.PfxFilePath,[System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($GraphConnection.PfxPassword)),[System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::PersistKeySet)
+        $Certificate = $Certificate | Select-Object -Last 1 #If there are more certificates in the chain
     }
 
     $UTCNow = [int]([DateTime]::UtcNow - (New-Object DateTime 1970,1,1,0,0,0,([DateTimeKind]::Utc))).TotalSeconds
