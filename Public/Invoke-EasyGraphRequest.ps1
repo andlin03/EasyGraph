@@ -48,28 +48,26 @@
 .PARAMETER All
     Overrides the page size settings, and returns all matching results.
 
+.INPUTS
+    None
+
 .OUTPUTS
-    The data that you requested or the result of the operation. The response message can be empty for some operations.
+    The data that you requested or the result of the request. The response message can be empty for some requests.
 #>
     Param
         (
-            [Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)]
+            [Parameter(Mandatory=$true)]
             [string]$Resource,
 
-            [Parameter(ValueFromPipelineByPropertyName=$true)]
             [ValidateSet('GET','POST','PATCH','PUT','DELETE')]
             [string]$Method = 'GET',
 
-            [Parameter(ValueFromPipelineByPropertyName=$true)]
             [ValidateSet('v1.0','beta')]
             [string]$APIVersion = 'v1.0',
 
-            [Parameter(ValueFromPipelineByPropertyName=$true)]
             [object]$Body,
 
-            [Parameter(ValueFromPipelineByPropertyName=$true)]
             [switch]$All
-
         )
     begin {
 
@@ -94,7 +92,7 @@
         do {
             try {
                 $res = Invoke-RestMethod @Headers -ErrorAction Stop
-                $ResponseStatus = 200 # Assigned manually, since Invoke-RestMethod doesn't handle Response Codes. Anything else than 2xx will trigger try-catch
+                $ResponseStatus = 200 # Assigned manually, since Invoke-RestMethod doesn't return Response Codes. Anything else than 2xx will trigger try-catch
 
                 if ($res -and ($res.'@odata.context' -and $res.value -or $res.'@odata.nextLink')) {
                     Write-Output $res.value

@@ -5,7 +5,7 @@
 
     $TokenRequestBody = @{
         client_id     = $GraphConnection.AppId
-        client_secret = $GraphConnection.ClientSecret
+        client_secret = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($GraphConnection.ClientSecret))
         scope         = "https://graph.microsoft.com/.default"
         grant_type    = "client_credentials"
     }

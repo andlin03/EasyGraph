@@ -101,7 +101,7 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags = @('PSEdition_Desktop', 'PSEdition_Core', 'Windows', 'Linux', 'Graph', 'Microsoft', 'PowerShell', 'Office365', 'Automation')
+            Tags = @('PSEdition_Desktop', 'PSEdition_Core', 'Windows', 'Linux', 'macOS', 'Graph', 'Microsoft', 'PowerShell', 'Office365', 'Automation')
 
             # A URL to the license for this module.
             # LicenseUri = ''

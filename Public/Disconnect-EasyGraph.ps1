@@ -19,6 +19,11 @@
     Connect-EasyGraph
 #>
 param()
+    $GraphConnection.AuthType = $null
+
+    $GraphConnection.PfxFilePath = $null
+    $GraphConnection.PfxPassword = $null
+
     $GraphConnection.TenantId = $null
     $GraphConnection.AppId = $null
     $GraphConnection.CertificateThumbprint = $null
