@@ -4,11 +4,9 @@ The EasyGraph module is designed for use in unattended scripts, and supports [Az
 
 Supported authentication methods:
 * Certificate based authentication with thumbprint
+* Certificate based authentication with Pfx file
 * Client credentials
 * Device Code
-
-Preview authentication metods: 
-* Certificate based authentication with PFX file
 
 ## Get Started!
 
@@ -105,9 +103,8 @@ Disconnect-EasyGraph
 
 ## Changelog
 
-### Prerelease
+### 1.1.0 - 2020-07-24
 - Added support for Pfx certificates
-- Code cleanup
 
 ### 1.0.0 - 2020-07-21
 - Initial release
