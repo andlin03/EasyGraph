@@ -150,7 +150,7 @@ Disconnect-EasyGraph
 
 ## Changelog
 
-### 1.2.0 - 2020-07-27
+### 1.2.0 - 2020-07-28
 
 * Added support for sign-in with username and password (Windows only)
 * Added support for Refresh Tokens
