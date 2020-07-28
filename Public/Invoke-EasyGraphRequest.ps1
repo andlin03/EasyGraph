@@ -79,7 +79,7 @@
         }
 
     } process {
-        $Headers = @{
+        $Request = @{
             Headers = @{
                 Authorization = "Bearer $($GraphConnection.AccessToken)"
             }
@@ -91,17 +91,17 @@
 
         do {
             try {
-                $res = Invoke-RestMethod @Headers -ErrorAction Stop
+                $Response = Invoke-RestMethod @Request -ErrorAction Stop
                 $ResponseStatus = 200 # Assigned manually, since Invoke-RestMethod doesn't return Response Codes. Anything else than 2xx will trigger try-catch
 
-                if ($res -and ($res.'@odata.context' -and $res.value -or $res.'@odata.nextLink')) {
-                    Write-Output $res.value
+                if ($Response -and ($Response.'@odata.context' -and $Response.value -or $Response.'@odata.nextLink')) {
+                    Write-Output $Response.value
                 } else {
-                    Write-Output $res
+                    Write-Output $Response
                 }
 
-                if ($All -and $res.'@odata.nextLink') {
-                    $Headers.Uri = $res.'@odata.nextLink'
+                if ($All -and $Response.'@odata.nextLink') {
+                    $Headers.Uri = $Response.'@odata.nextLink'
                 }
 
             } catch {
@@ -122,10 +122,10 @@
                 }
             }
 
-        } while ($ResponseStatus -eq 429 -or ($All -and $res.'@odata.nextLink'))
+        } while ($ResponseStatus -eq 429 -or ($All -and $Response.'@odata.nextLink'))
 
-        if ($res.'@odata.nextLink' -and -not $All) {
-            Write-Warning "More results available, use -All to see all results"
+        if ($Response.'@odata.nextLink' -and -not $All) {
+            Write-Warning 'More results available, use -All to see all results'
         }
     }
 }

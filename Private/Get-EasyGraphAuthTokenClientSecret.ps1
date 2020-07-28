@@ -3,15 +3,15 @@
 
     $AuthURI         = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/v2.0/token"
 
-    $TokenRequestBody = @{
+    $TokenRequest = @{
         client_id     = $GraphConnection.AppId
-        client_secret = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($GraphConnection.ClientSecret))
-        scope         = "https://graph.microsoft.com/.default"
-        grant_type    = "client_credentials"
+        client_secret = $GraphConnection.ClientSecret | ConvertFrom-SecureStringAsPlainText
+        scope         = 'https://graph.microsoft.com/.default'
+        grant_type    = 'client_credentials'
     }
 
-    $tokenRequest = Invoke-RestMethod -Method Post -Uri $AuthURI -ContentType 'application/x-www-form-urlencoded' -Body $TokenRequestBody
+    $TokenResponse = Invoke-RestMethod -Method Post -Uri $AuthURI -ContentType 'application/x-www-form-urlencoded' -Body $TokenRequest
 
-    $GraphConnection.AccessToken = $tokenRequest.access_token
-    $GraphConnection.Expires = ([DateTime]::UtcNow).AddSeconds($tokenRequest.expires_in)
+    $GraphConnection.AccessToken = $TokenResponse.access_token
+    $GraphConnection.Expires = ([DateTime]::UtcNow).AddSeconds($TokenResponse.expires_in)
 }

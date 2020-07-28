@@ -3,7 +3,7 @@
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '')]
     param()
 
-    $DeviceCodeRequestParams = @{
+    $DeviceCodeRequest = @{
         Method = 'POST'
         Uri    = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/devicecode"
         Body   = @{
@@ -12,32 +12,45 @@
         }
     }
 
-    $DeviceCodeRequest = Invoke-RestMethod @DeviceCodeRequestParams
-    $DeviceResponseTimeout = $DeviceCodeRequest.expires_in
-    Write-Host $DeviceCodeRequest.message -ForegroundColor Yellow
+    $DeviceCodeResponse = Invoke-RestMethod @DeviceCodeRequest
+    $DeviceCodeTimeout = $DeviceCodeResponse.expires_in
+    Write-Host $DeviceCodeResponse.message -ForegroundColor Yellow
 
-    $TokenRequestParams = @{
+    $TokenRequest = @{
         Method = 'POST'
         Uri    = "https://login.microsoftonline.com/$($GraphConnection.TenantId)/oauth2/token"
         Body   = @{
-            grant_type = "urn:ietf:params:oauth:grant-type:device_code"
-            code       = $DeviceCodeRequest.device_code
+            grant_type = 'urn:ietf:params:oauth:grant-type:device_code'
+            code       = $DeviceCodeResponse.device_code
             client_id  = $GraphConnection.AppId
         }
     }
     do {
-        Start-Sleep -Seconds $DeviceCodeRequest.interval
-        $DeviceResponseTimeout -= $DeviceCodeRequest.interval
+        Start-Sleep -Seconds $DeviceCodeResponse.interval
+        $DeviceCodeTimeout -= $DeviceCodeResponse.interval
         try {
-            $TokenResponse = Invoke-WebRequest @TokenRequestParams -ErrorAction Stop
-            $TokenResponseStatus = $TokenResponse.StatusCode
+            $TokenResponseRaw = Invoke-WebRequest @TokenRequest -ErrorAction Stop
+            $TokenResponseStatus = $TokenResponseRaw.StatusCode
         } catch {
             $TokenResponseStatus = $_.Exception.Response.StatusCode.value__
         }
-    } while ($TokenResponseStatus -eq 400 -and $DeviceResponseTimeout -gt 0)
+    } while ($TokenResponseStatus -eq 400 -and $DeviceCodeTimeout -gt 0)
+
+    if ($DeviceCodeTimeout -le 0) {
+        throw 'Device Code authentication timed out'
+    }
 
     if ($TokenResponseStatus -eq 200) {
-        $GraphConnection.AccessToken = ($TokenResponse.Content | ConvertFrom-Json).access_token
-        $GraphConnection.Expires = ([DateTime]::UtcNow).AddSeconds(($TokenResponse.Content | ConvertFrom-Json).expires_in)
+        $TokenResponse = $TokenResponseRaw.Content | ConvertFrom-Json
+        $GraphConnection.AccessToken = $TokenResponse.access_token
+        $GraphConnection.RefreshToken = $TokenResponse.refresh_token
+        $GraphConnection.Expires = ([DateTime]::UtcNow).AddSeconds($TokenResponse.expires_in)
+
+        $IdToken = $TokenResponse.id_token | ConvertFrom-JWTtoken
+        $GraphConnection.TenantId = $IdToken.tid
+        $GraphConnection.UserName = $IdToken.upn
+
+    } else {
+        throw 'Unexpected authentication error'
     }
 }

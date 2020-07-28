@@ -11,7 +11,7 @@
     RootModule        = 'EasyGraph.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.1.0'
+    ModuleVersion     = '1.2.0'
 
     # Supported PSEditions
     CompatiblePSEditions = @('Desktop','Core')
@@ -74,7 +74,8 @@
     FunctionsToExport = @(
         'Invoke-EasyGraphRequest',
         'Connect-EasyGraph',
-        'Disconnect-EasyGraph'
+        'Disconnect-EasyGraph',
+        'Get-EasyGraphConnectionInfo'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
@@ -113,7 +114,13 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'version 1.1.0
+            ReleaseNotes = 'version 1.2.0
+------------
+* Added support for sign-in with username and password (Windows only)
+* Added support for Refresh Tokens
+* New cmdlet Get-EasyGraphConnectionInfo to retrieve basic information about the active connection to EasyGraph
+
+version 1.1.0
 ------------
 * Added support for Pfx certificates
 

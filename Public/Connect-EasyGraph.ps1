@@ -28,6 +28,11 @@
     The password of the Pfx certificate.
 
 .EXAMPLE
+    # Connect with username and password
+    Connect-EasyGraph -AppId $AppId
+    Connect-EasyGraph -AppId $AppId -UserPrincipalName user@contoso.onmicrosoft.com
+
+.EXAMPLE
     # Connect using a client certificate
     Connect-EasyGraph -TenantId 'contoso.onmicrosoft.com' -AppId $AppId -CertificateThumbprint $CertificateThumbprint
 
@@ -59,9 +64,10 @@
 #>
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter','')]
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='UserAuth')]
     Param
     (
+        [Parameter(ParameterSetName='UserAuth',Mandatory=$false)]
         [Parameter(ParameterSetName='Thumbprint',Mandatory=$true)]
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
@@ -69,12 +75,17 @@
         [Alias('TenantName','Organization')]
         [string]$TenantId,
 
+        [Parameter(ParameterSetName='UserAuth',Mandatory=$true)]
         [Parameter(ParameterSetName='Thumbprint',Mandatory=$true)]
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
         [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
         [Alias('ApplicationId')]
         [string]$AppId,
+
+        [Parameter(ParameterSetName='UserAuth',Mandatory=$false)]
+        [Alias('UserName')]
+        [string]$UserPrincipalName,
 
         [Parameter(ParameterSetName='Thumbprint',Mandatory=$true)]
         [Alias('Thumbprint')]
@@ -98,17 +109,17 @@
         [switch]$DeviceCode
     )
 
+    Disconnect-EasyGraph
+
     $GraphConnection.TenantId = $TenantId
     $GraphConnection.AppId = $AppId
     $GraphConnection.ClientSecret = $ClientSecret
     $GraphConnection.CertificateThumbprint = $CertificateThumbprint
     $GraphConnection.AuthType = $PSCmdlet.ParameterSetName
+    $GraphConnection.UserName = $UserPrincipalName
     if ($PfxFilePath) {
         $GraphConnection.PfxFilePath = Resolve-Path -Path $PfxFilePath
         $GraphConnection.PfxPassword = $PfxPassword
-    } else {
-        $GraphConnection.PfxFilePath = $null
-        $GraphConnection.PfxPassword = $null
     }
 
     Get-EasyGraphAuthToken

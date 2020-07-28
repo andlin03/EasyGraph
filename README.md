@@ -5,8 +5,9 @@ The EasyGraph module is designed for use in unattended scripts, and supports [Az
 
 Supported authentication methods:
 
-* Certificate based authentication with thumbprint
+* Certificate based authentication with thumbprint (Windows only)
 * Certificate based authentication with Pfx file
+* Username and password (Windows only)
 * Client credentials
 * Device Code
 
@@ -24,9 +25,9 @@ Install-Module -Name EasyGraph
 
 To use the module you first have to [register your app](https://docs.microsoft.com/en-us/graph/auth-register-app-v2) in Azure AD and [delegate permissions and consents](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent) for the type of requests your script will use.
 
-For Certificate and Client Secret authentication your App need Application permissions, and for Device Code authentication your App need Delegated permissions.
+For Certificate and Client Secret authentication your App need Application permissions, and for User and Device Code authentication your App need Delegated permissions.
 
-Device Code authentication also requires that your App has a Redirect URI specified (for example <http://localhost> or <https://login.microsoftonline.com/common/oauth2/nativeclient>), and that your App is configured to be treated as a Public Client.
+Delegated authentication also requires that your App has a Redirect URI specified (for example <https://login.microsoftonline.com/common/oauth2/nativeclient>), and Device Code authentication requires that your Default client type is set to Public Client.
 
 You can find more information about [App Registrations in the Microsoft documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-desktop-app-registration).
 
@@ -49,13 +50,22 @@ After the certificate is created you must export the public key and [upload it t
 
 ## Examples
 
+### Connect with username and password
+
+```powershell
+# Without specifying user
+Connect-EasyGraph -AppId $AppId
+# Specify user for Single sign-on (when applicable)
+Connect-EasyGraph -AppId $AppId -UserPrincipalName 'user@contoso.onmicrosoft.com'
+```
+
 ### Connect with DeviceCode
 
 ```powershell
 Connect-EasyGraph -AppId $AppId -TenantId $TenantId -DeviceCode
 ```
 
-### Connect with Certificate
+### Connect with a certificate in the Windows Certificate Store
 
 ```powershell
 Connect-EasyGraph -AppId $AppId -TenantId $TenantId -CertificateThumbprint $Certificate.Thumbprint
@@ -94,7 +104,7 @@ Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
 Invoke-EasyGraphRequest -Resource '/users' -All
 ```
 
-### Get the 'Sales' group
+### Get the 'Sales' group using filter parameter
 
 <https://docs.microsoft.com/en-us/graph/query-parameters>
 
@@ -139,6 +149,12 @@ Disconnect-EasyGraph
 * Please submit via the [Issues](https://github.com/andlin03/EasyGraph/issues) link above
 
 ## Changelog
+
+### 1.2.0 - 2020-07-27
+
+* Added support for sign-in with username and password (Windows only)
+* Added support for Refresh Tokens
+* New cmdlet Get-EasyGraphConnectionInfo to retrieve basic information about the active connection to EasyGraph
 
 ### 1.1.0 - 2020-07-24
 
