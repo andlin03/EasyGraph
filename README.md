@@ -135,7 +135,7 @@ $body = @{
         password = 'password-value'
     }
 }
-Invoke-EasyGraphRequest -Resource '/users' -Method POST -Body $body
+Invoke-EasyGraphRequest -Resource '/users' -Method Post -Body $body
 ```
 
 ### Disconnect session

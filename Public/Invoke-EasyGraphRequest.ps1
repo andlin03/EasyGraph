@@ -31,19 +31,19 @@
             password = 'password-value'
         }
     }
-    Invoke-EasyGraphRequest -Resource '/users' -Method POST -Body $body
+    Invoke-EasyGraphRequest -Resource '/users' -Method Post -Body $body
 
 .PARAMETER Resource
     Specifies the resource you want to access
 
 .PARAMETER Method
-    Specifies the HTTP Method for the request. If no method is specified, a GET request will be sent
+    Specifies the HTTP Method for the request. If no method is specified, a Get request will be sent
 
 .PARAMETER APIVersion
-    Specified the version of the Microsoft Graph API you are using. Default is '1.0'.
+    Specified the version of the Microsoft Graph API you are using. Default is 'v1.0'.
 
 .PARAMETER Body
-    Specifies the Body that will be sent in your request. Only required for POST, PATCH and PUT Methods.
+    Specifies the Body that will be sent in your request. Only required for Post, Patch and Put Methods.
 
 .PARAMETER All
     Overrides the page size settings, and returns all matching results.
@@ -59,8 +59,8 @@
             [Parameter(Mandatory=$true)]
             [string]$Resource,
 
-            [ValidateSet('GET','POST','PATCH','PUT','DELETE')]
-            [string]$Method = 'GET',
+            [ValidateSet('Get','Post','Patch','Put','Delete')]
+            [string]$Method = 'Get',
 
             [ValidateSet('v1.0','beta')]
             [string]$APIVersion = 'v1.0',
