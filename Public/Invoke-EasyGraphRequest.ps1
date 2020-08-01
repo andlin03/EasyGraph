@@ -101,7 +101,7 @@
                 }
 
                 if ($All -and $Response.'@odata.nextLink') {
-                    $Headers.Uri = $Response.'@odata.nextLink'
+                    $Request.Headers.Uri = $Response.'@odata.nextLink'
                 }
 
             } catch {

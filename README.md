@@ -150,7 +150,7 @@ Disconnect-EasyGraph
 
 ## Changelog
 
-### 1.2.1 - 2020-08-01
+### 1.2.2 - 2020-08-01
 
 * Bugfix (incorrect response when empty array is returned)
 
