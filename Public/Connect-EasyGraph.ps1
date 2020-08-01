@@ -81,7 +81,7 @@
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
         [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
         [Alias('ApplicationId')]
-        [string]$AppId,
+        [guid]$AppId,
 
         [Parameter(ParameterSetName='UserAuth',Mandatory=$false)]
         [Alias('UserName')]
@@ -100,7 +100,7 @@
 
         # Dummy parameter to be able to use splatting with Azure Automation Connection objects
         [Parameter(ParameterSetName='Thumbprint',Mandatory=$false,DontShow)]
-        [string]$SubscriptionId,
+        [guid]$SubscriptionId,
 
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
         [securestring]$ClientSecret,

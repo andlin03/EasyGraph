@@ -11,7 +11,7 @@
     RootModule        = 'EasyGraph.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.2.0'
+    ModuleVersion     = '1.2.1'
 
     # Supported PSEditions
     CompatiblePSEditions = @('Desktop','Core')
@@ -114,7 +114,11 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'version 1.2.0
+            ReleaseNotes = 'version 1.2.1
+------------
+* Bugfixes
+
+version 1.2.0
 ------------
 * Added support for sign-in with username and password (Windows only)
 * Added support for Refresh Tokens

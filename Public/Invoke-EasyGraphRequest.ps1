@@ -94,7 +94,7 @@
                 $Response = Invoke-RestMethod @Request -ErrorAction Stop
                 $ResponseStatus = 200 # Assigned manually, since Invoke-RestMethod doesn't return Response Codes. Anything else than 2xx will trigger try-catch
 
-                if ($Response -and ($Response.'@odata.context' -and $Response.value -or $Response.'@odata.nextLink')) {
+                if ($Response.'@odata.context' -and $Response.value -is [array]) {
                     Write-Output $Response.value
                 } else {
                     Write-Output $Response

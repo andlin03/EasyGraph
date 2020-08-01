@@ -109,7 +109,7 @@ Invoke-EasyGraphRequest -Resource '/users' -All
 <https://docs.microsoft.com/en-us/graph/query-parameters>
 
 ```powershell
-$group = Invoke-EasyGraphRequest -Resource '/groups?$filter=displayname eq ''Sales'''
+$group = Invoke-EasyGraphRequest -Resource '/groups?$filter=displayName eq ''Sales'''
 ```
 
 ### Get members of the 'Sales' group
@@ -149,6 +149,10 @@ Disconnect-EasyGraph
 * Please submit via the [Issues](https://github.com/andlin03/EasyGraph/issues) link above
 
 ## Changelog
+
+### 1.2.1 - 2020-08-01
+
+* Bugfix (incorrect response when empty array is returned)
 
 ### 1.2.0 - 2020-07-28
 
