@@ -114,23 +114,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'version 1.2.2
-------------
-* Bugfixes
-
-version 1.2.0
-------------
-* Added support for sign-in with username and password (Windows only)
-* Added support for Refresh Tokens
-* New cmdlet Get-EasyGraphConnectionInfo to retrieve basic information about the active connection to EasyGraph
-
-version 1.1.0
-------------
-* Added support for Pfx certificates
-
-version 1.0.0
-------------
-* Initial release'
+            ReleaseNotes = 'Please refer to GitHub for release notes https://github.com/andlin03/EasyGraph/releases'
 
             # Prerelease string of this module
             # Prerelease = ''

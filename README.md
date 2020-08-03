@@ -146,25 +146,8 @@ Disconnect-EasyGraph
 
 ## Issues, Requests, Bugs
 
-* Please submit via the [Issues](https://github.com/andlin03/EasyGraph/issues) link above
+Please submit via the [Issues](https://github.com/andlin03/EasyGraph/issues) link.
 
 ## Changelog
 
-### 1.2.2 - 2020-08-01
-
-* Fixed incorrect response when empty array is returned
-* Fixed problem with -All parameter, introduced in 1.2.0
-
-### 1.2.0 - 2020-07-28
-
-* Added support for sign-in with username and password (Windows only)
-* Added support for Refresh Tokens
-* Added new cmdlet Get-EasyGraphConnectionInfo to retrieve basic information about the active connection to EasyGraph
-
-### 1.1.0 - 2020-07-24
-
-* Added support for Pfx certificates
-
-### 1.0.0 - 2020-07-21
-
-* Initial release
+The change log is maintained in the [Releases](https://github.com/andlin03/EasyGraph/releases) section of GitHub.
