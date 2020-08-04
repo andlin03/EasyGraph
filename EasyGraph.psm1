@@ -6,7 +6,7 @@ Get-ChildItem -Force -Path $PSScriptRoot -Filter *.ps1 -Recurse | ForEach-Object
     . $_.FullName
 }
 
-Get-ChildItem -Force -Path "$PSScriptRoot\public" -Filter *.ps1 -Recurse | ForEach-Object {
+Get-ChildItem -Force -Path ([System.IO.Path]::Combine($PSScriptRoot,'public')) -Filter *.ps1 -Recurse | ForEach-Object {
     Export-ModuleMember -Function $_.BaseName
 }
 
