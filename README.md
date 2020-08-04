@@ -56,6 +56,7 @@ After the certificate is created you must export the public key and [upload it t
 # Without specifying user
 Connect-EasyGraph -AppId $AppId
 ```
+
 ```powershell
 # Specify user for Single sign-on (when applicable)
 Connect-EasyGraph -AppId $AppId -UserPrincipalName 'user@contoso.onmicrosoft.com'
