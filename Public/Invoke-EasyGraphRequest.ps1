@@ -33,11 +33,10 @@
     }
     Invoke-EasyGraphRequest -Resource '/users' -Method Post -Body $body
 
-.PARAMETER Resource
-    Specifies the resource you want to access
+.PARAMETER All
+    Overrides the page size settings, and returns all matching results.
 
-.PARAMETER Method
-    Specifies the HTTP Method for the request. If no method is specified, a Get request will be sent
+    This parameter is only valid for output to the pipeline, and cannot be used when the OutFile parameter is also used in the command. Consider increasing the page size with the $top parameter in the Request to return all results instead.
 
 .PARAMETER APIVersion
     Specified the version of the Microsoft Graph API you are using. Default is 'v1.0'.
@@ -45,8 +44,28 @@
 .PARAMETER Body
     Specifies the Body that will be sent in your request. Only required for Post, Patch and Put Methods.
 
-.PARAMETER All
-    Overrides the page size settings, and returns all matching results.
+.PARAMETER ContentType
+    Specifies the content type of the request.
+
+    If this parameter is omitted, "application/json" is used.
+
+.PARAMETER Headers
+    Specifies the headers of the web request.
+
+.PARAMETER InFile
+    Specifies a file with content that will be sent in the request body.
+
+.PARAMETER Method
+    Specifies the HTTP Method for the request. If no method is specified, a Get request will be sent
+
+.PARAMETER OutFile
+    Saves the response in the specified file. By default, Invoke-EasyGraphRequest returns the results to the pipeline. To send the results to a file and to the pipeline, use the Passthru parameter.
+
+.PARAMETER PassThru
+    Returns the results, in addition to writing them to a file. This parameter is valid only when the OutFile parameter is also used in the command.
+
+.PARAMETER Resource
+    Specifies the resource you want to access
 
 .INPUTS
     None
@@ -66,8 +85,13 @@
             [string]$APIVersion = 'v1.0',
 
             [object]$Body,
+            [hashtable]$Headers,
 
-            [switch]$All
+            [string]$InFile,
+            [string]$OutFile,
+            [switch]$PassThru,
+            [switch]$All,
+            [string]$ContentType = 'application/json'
         )
     begin {
 
@@ -78,35 +102,65 @@
             Get-EasyGraphAuthToken
         }
 
-    } process {
+        if ($ContentType -eq 'application/json') {
+            $Body = $Body | ConvertTo-Json
+        }
+
         $Request = @{
             Headers = @{
                 Authorization = "Bearer $($GraphConnection.AccessToken)"
             }
             Uri = "https://graph.microsoft.com/$APIVersion$Resource"
-            ContentType = 'application/json'
+            ContentType = $ContentType
             Method = $Method
-            Body = $Body | ConvertTo-Json
+            Body = $Body
         }
+
+        if ($Headers) {
+            $Request.Headers += $Headers
+        }
+
+        if ($InFile) {
+            $Request.InFile = $InFile
+        }
+
+        if ($OutFile) {
+            $Request.OutFile = $OutFile
+            $Request.PassThru = $PassThru
+        }
+
+    } process {
 
         do {
             try {
-                $Response = Invoke-RestMethod @Request -ErrorAction Stop
-                $ResponseStatus = 200 # Assigned manually, since Invoke-RestMethod doesn't return Response Codes. Anything else than 2xx will trigger try-catch
+                $Response = Invoke-WebRequest @Request -UseBasicParsing -ErrorAction Stop
+                $ResponseStatus = $Response.StatusCode
 
-                if ($Response.'@odata.context' -and $Response.value -is [array]) {
-                    Write-Output $Response.value
-                } else {
-                    Write-Output $Response
+                switch -Regex ($Response.Headers.'Content-Type') {
+                    'application/json' {
+                        $ResponseContent = $Response.Content | ConvertFrom-Json
+                    }
+                    default {
+                        $ResponseContent = $Response.Content
+                    }
                 }
 
-                if ($All -and $Response.'@odata.nextLink') {
-                    $Request.Headers.Uri = $Response.'@odata.nextLink'
+                if ($ResponseContent.'@odata.context' -and $ResponseContent.value -is [array]) {
+                    Write-Output $ResponseContent.value
+                } else {
+                    Write-Output $ResponseContent
+                }
+
+                if ($All -and $ResponseContent.'@odata.nextLink') {
+                    $Request.Uri = $ResponseContent.'@odata.nextLink'
                 }
 
             } catch {
+
                 $ResponseStatus = $_.Exception.Response.StatusCode.value__
+
                 if ($ResponseStatus -eq 429) {
+
                     if( $_.Exception.Response.Headers -and $_.Exception.Response.Headers.Contains('Retry-After') ) {
                         $RetryInternval = $_.Exception.Response.Headers.GetValues('Retry-After')
                         if($RetryInternval -is [string[]]) {
@@ -117,14 +171,15 @@
                     }
                     Write-Warning "Requests are throttled, waiting $RetryInternval seconds"
                     Start-Sleep -Seconds $RetryInternval
+
                 } else {
                     throw $_
                 }
             }
 
-        } while ($ResponseStatus -eq 429 -or ($All -and $Response.'@odata.nextLink'))
+        } while ($ResponseStatus -eq 429 -or ($All -and $ResponseContent.'@odata.nextLink'))
 
-        if ($Response.'@odata.nextLink' -and -not $All) {
+        if ($ResponseContent.'@odata.nextLink' -and -not $All) {
             Write-Warning 'More results available, use -All to see all results'
         }
     }
