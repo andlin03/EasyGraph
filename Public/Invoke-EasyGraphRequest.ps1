@@ -124,7 +124,7 @@
             $Request.InFile = $InFile
         }
 
-        if ($OutFile) {
+        if ($OutFile -and -not $All) {
             $Request.OutFile = $OutFile
             $Request.PassThru = $PassThru
         }
