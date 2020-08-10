@@ -50,10 +50,10 @@ After the certificate is created you must export the public key and [upload it t
 
 ## Examples
 
-### Connect with username and password
+### Connect
 
 ```powershell
-# Without specifying user
+# With regular login prompt 
 Connect-EasyGraph -AppId $AppId
 ```
 
@@ -62,72 +62,51 @@ Connect-EasyGraph -AppId $AppId
 Connect-EasyGraph -AppId $AppId -UserPrincipalName 'user@contoso.onmicrosoft.com'
 ```
 
-### Connect with DeviceCode
-
 ```powershell
+# Connect with Device Code
 Connect-EasyGraph -AppId $AppId -TenantId $TenantId -DeviceCode
 ```
 
-### Connect with a certificate in the Windows Certificate Store
-
 ```powershell
+# Connect with a certificate in the Windows Certificate Store
 Connect-EasyGraph -AppId $AppId -TenantId $TenantId -CertificateThumbprint $Certificate.Thumbprint
 ```
 
-### Connect with Azure Automation
-
-If you are using Azure Automation for your scripts you can use the [Azure Run As Account](https://docs.microsoft.com/en-us/azure/automation/manage-runas-account) to access Microsoft Graph
-
 ```powershell
+# Connect with Azure Automation RunAs Account
 $AzureRunAsConnection = Get-AutomationConnection -Name 'AzureRunAsConnection'
 Connect-EasyGraph @AzureRunAsConnection
 ```
 
-### Get users
-
-<https://docs.microsoft.com/en-us/graph/api/user-list>
+### API Requests
 
 ```powershell
+# Get all users: https://docs.microsoft.com/en-us/graph/api/user-list
 Invoke-EasyGraphRequest -Resource '/users'
 ```
 
-### Get users from the 'beta' endpoint
-
-<https://docs.microsoft.com/en-us/graph/use-the-api#version>
-
 ```powershell
+# Get users from the 'beta' endpoint: https://docs.microsoft.com/en-us/graph/use-the-api#version
 Invoke-EasyGraphRequest -Resource '/users' -APIVersion beta
 ```
 
-### Get all users with automatic paging
-
-<https://docs.microsoft.com/en-us/graph/paging>
-
 ```powershell
+# Get all users with automatic paging: https://docs.microsoft.com/en-us/graph/paging
 Invoke-EasyGraphRequest -Resource '/users' -All
 ```
 
-### Get the 'Sales' group using filter parameter
-
-<https://docs.microsoft.com/en-us/graph/query-parameters>
-
 ```powershell
+# Get the 'Sales' group using filter parameter: https://docs.microsoft.com/en-us/graph/query-parameters
 $group = Invoke-EasyGraphRequest -Resource '/groups?$filter=displayName eq ''Sales'''
 ```
 
-### Get members of the 'Sales' group
-
-<https://docs.microsoft.com/en-us/graph/api/group-list-members>
-
 ```powershell
+# Get members of the 'Sales' group: https://docs.microsoft.com/en-us/graph/api/group-list-members
 Invoke-EasyGraphRequest -Resource "/groups/$($group.id)/members"
 ```
 
-### Create a user
-
-<https://docs.microsoft.com/en-us/graph/api/user-post-users>
-
 ```powershell
+# Create a user: https://docs.microsoft.com/en-us/graph/api/user-post-users
 $body = @{
     accountEnabled = $true
     displayName = 'displayName-value'
@@ -139,6 +118,21 @@ $body = @{
     }
 }
 Invoke-EasyGraphRequest -Resource '/users' -Method Post -Body $body
+```
+
+```powershell
+# Update profile photo: https://docs.microsoft.com/en-us/graph/api/profilephoto-update
+Invoke-EasyGraphRequest -Resource '/me/photo/$value' -Method Patch -InFile .\photo.jpg -ContentType 'image/jpeg'
+```
+
+```powershell
+# Upload file to OneDrive: https://docs.microsoft.com/en-us/graph/api/driveitem-put-content
+Invoke-EasyGraphRequest -Resource '/me/drive/root:/workbook.xlsx:/content' -Method Put -InFile .\workbook.xlsx -ContentType 'application/octet-stream'
+```
+
+```powershell
+# Download file from OneDrive: https://docs.microsoft.com/en-us/graph/api/driveitem-get-content
+Invoke-EasyGraphRequest -Resource '/me/drive/root:/workbook.xlsx:/content' -OutFile .\workbook.xlsx
 ```
 
 ### Disconnect session
