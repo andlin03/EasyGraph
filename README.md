@@ -27,7 +27,7 @@ To use the module you first have to [register your app](https://docs.microsoft.c
 
 For Certificate and Client Secret authentication your App need Application permissions, and for User and Device Code authentication your App need Delegated permissions.
 
-Delegated authentication also requires that your App has a Redirect URI specified (for example <https://login.microsoftonline.com/common/oauth2/nativeclient>), and Device Code authentication requires that your Default client type is set to Public Client.
+Delegated authentication also requires that your App has a Redirect URI specified (for example `https://login.microsoftonline.com/common/oauth2/nativeclient`), and Device Code authentication requires that your Default client type is set to Public Client.
 
 You can find more information about [App Registrations in the Microsoft documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-desktop-app-registration).
 
