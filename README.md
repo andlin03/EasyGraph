@@ -10,6 +10,7 @@ Supported authentication methods:
 * Username and password (Windows only)
 * Client credentials
 * Device Code
+* Azure Automation RunAs account
 
 ## Get Started
 
@@ -53,7 +54,7 @@ After the certificate is created you must export the public key and [upload it t
 ### Connect
 
 ```powershell
-# With regular login prompt 
+# With regular login prompt
 Connect-EasyGraph -AppId $AppId
 ```
 
