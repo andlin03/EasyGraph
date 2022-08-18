@@ -106,7 +106,10 @@
         [securestring]$ClientSecret,
 
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
-        [switch]$DeviceCode
+        [switch]$DeviceCode,
+
+        [Parameter(ParameterSetName='ManagedIdentity',Mandatory=$true)]
+        [switch]$ManagedIdentity
     )
 
     Disconnect-EasyGraph

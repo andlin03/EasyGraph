@@ -10,6 +10,7 @@ Supported authentication methods:
 * Username and password (Windows only)
 * Client credentials
 * Device Code
+* Azure Automation Managed Identity
 * Azure Automation RunAs account
 
 ## Get Started
@@ -24,7 +25,7 @@ Install-Module -Name EasyGraph
 
 ### Register your App
 
-To use the module you first have to [register your app](https://docs.microsoft.com/en-us/graph/auth-register-app-v2) in Azure AD and [delegate permissions and consents](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent) for the type of requests your script will use.
+To use the module you first have to [register your app](https://docs.microsoft.com/en-us/graph/auth-register-app-v2) in Azure AD, and [delegate permissions and consents](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent) for the type of requests your script will use.
 
 For Certificate and Client Secret authentication your App need Application permissions, and for User and Device Code authentication your App need Delegated permissions.
 
@@ -71,6 +72,11 @@ Connect-EasyGraph -AppId $AppId -TenantId $TenantId -DeviceCode
 ```powershell
 # Connect with a certificate in the Windows Certificate Store
 Connect-EasyGraph -AppId $AppId -TenantId $TenantId -CertificateThumbprint $Certificate.Thumbprint
+```
+
+```powershell
+# Connect with Azure Automation Managed Identity
+Connect-EasyGraph -ManagedIdentity
 ```
 
 ```powershell
