@@ -102,7 +102,7 @@
             Get-EasyGraphAuthToken
         }
 
-        if ($ContentType -like 'application/json*') {
+        if ($ContentType -like 'application/json*' -and $Body) {
             $Body = $Body | ConvertTo-Json
             $Body = [System.Text.Encoding]::UTF8.GetBytes($Body)
         }

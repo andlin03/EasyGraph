@@ -19,6 +19,7 @@ function Get-EasyGraphConnectionInfo {
     if ($GraphConnection.AccessToken) {
 
         [pscustomobject]@{
+            AuthType        = $GraphConnection.AuthType
             TenantId        = $GraphConnection.TenantId
             AppId           = $GraphConnection.AppId
             TokenExpiration = $GraphConnection.Expires.ToLocalTime()

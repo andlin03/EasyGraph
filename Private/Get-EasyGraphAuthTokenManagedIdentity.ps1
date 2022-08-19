@@ -18,7 +18,10 @@ function Get-EasyGraphAuthTokenManagedIdentity {
     }
 
     $TokenResponse = Invoke-RestMethod -Method Get -Uri $AuthURI -Headers $Headers
+    $DecodedToken = ConvertFrom-JWTtoken -Token $TokenResponse.access_token
 
     $GraphConnection.AccessToken = $TokenResponse.access_token
-    $GraphConnection.Expires = ([DateTime]"1970-01-01 00:00:00Z").AddSeconds($TokenResponse.expires_on)
+    $GraphConnection.Expires     = ([DateTime]"1970-01-01 00:00:00Z").AddSeconds($TokenResponse.expires_on)
+    $GraphConnection.TenantId    = $DecodedToken.tid
+    $GraphConnection.AppId       = $DecodedToken.oid
 }
