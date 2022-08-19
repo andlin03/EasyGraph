@@ -24,6 +24,9 @@
             'DeviceCode' {
                 Get-EasyGraphAuthTokenDeviceCode
             }
+            'ManagedIdentity' {
+                Get-EasyGraphAuthTokenManagedIdentity
+            }
             Default {
                 throw 'You must call Connect-EasyGraph first'
             }

@@ -9,7 +9,7 @@
     RootModule        = 'EasyGraph.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.3.1'
+    ModuleVersion     = '1.4.0'
 
     # Supported PSEditions
     CompatiblePSEditions = @('Desktop','Core')
