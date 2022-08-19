@@ -102,8 +102,9 @@
             Get-EasyGraphAuthToken
         }
 
-        if ($ContentType.StartsWith('application/json')) {
+        if ($ContentType -like 'application/json*') {
             $Body = $Body | ConvertTo-Json
+            $Body = [System.Text.Encoding]::UTF8.GetBytes($Body)
         }
 
         $Request = @{
@@ -113,7 +114,7 @@
             Uri = "https://graph.microsoft.com/$APIVersion$Resource"
             ContentType = $ContentType
             Method = $Method
-            Body = [System.Text.Encoding]::UTF8.GetBytes($Body)
+            Body = $Body
         }
 
         if ($Headers) {

@@ -80,7 +80,8 @@
         [Parameter(ParameterSetName='ClientSecret',Mandatory=$true)]
         [Parameter(ParameterSetName='DeviceCode',Mandatory=$true)]
         [Parameter(ParameterSetName='Pfx',Mandatory=$true)]
-        [Alias('ApplicationId')]
+        [Parameter(ParameterSetName='ManagedIdentity',Mandatory=$false)]
+        [Alias('ApplicationId','ClientId')]
         [guid]$AppId,
 
         [Parameter(ParameterSetName='UserAuth',Mandatory=$false)]
