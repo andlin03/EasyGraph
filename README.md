@@ -10,7 +10,7 @@ Supported authentication methods:
 * Username and password (Windows only)
 * Client credentials
 * Device Code
-* Azure Automation Managed Identity
+* Azure Managed Identities
 * Azure Automation RunAs account
 
 ## Get Started
@@ -75,7 +75,7 @@ Connect-EasyGraph -AppId $AppId -TenantId $TenantId -CertificateThumbprint $Cert
 ```
 
 ```powershell
-# Connect with Azure Automation Managed Identity
+# Connect with Managed Identity
 Connect-EasyGraph -ManagedIdentity
 ```
 
