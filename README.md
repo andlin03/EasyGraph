@@ -115,14 +115,14 @@ Invoke-EasyGraphRequest -Resource "/groups/$($group.id)/members"
 ```powershell
 # Create a user: https://docs.microsoft.com/en-us/graph/api/user-post-users
 $body = @{
-	AccountEnabled = $true
-	DisplayName = "Adele Vance"
-	MailNickname = "AdeleV"
-	UserPrincipalName = "AdeleV@contoso.onmicrosoft.com"
-	PasswordProfile = @{
-		ForceChangePasswordNextSignIn = $true
-		Password = "xWwvJ]6NMw+bWH-d"
-	}
+    AccountEnabled = $true
+    DisplayName = "Adele Vance"
+    MailNickname = "AdeleV"
+    UserPrincipalName = "AdeleV@contoso.onmicrosoft.com"
+    PasswordProfile = @{
+        ForceChangePasswordNextSignIn = $true
+        Password = "xWwvJ]6NMw+bWH-d"
+    }
 }
 Invoke-EasyGraphRequest -Resource '/users' -Method Post -Body $body
 ```
