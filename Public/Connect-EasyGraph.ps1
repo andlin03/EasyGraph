@@ -21,6 +21,9 @@
 .PARAMETER DeviceCode
     Denotes that you are connecting with a Device Code.
 
+.PARAMETER ManagedIdentity
+    Denotes that you are connecting with Azure Managed Identities.
+
 .PARAMETER PfxFilePath
     The full path to the Pfx file you are authenticating with. The public key of the certificate must be registered in your App.
 
@@ -43,6 +46,10 @@
 .EXAMPLE
     # Connect using device code
     Connect-EasyGraph -TenantId 'contoso.onmicrosoft.com' -AppId $AppId -DeviceCode
+
+.EXAMPLE
+    # Connect using an Azure Managed Identity
+    Connect-EasyGraph -ManagedIdentity
 
 .EXAMPLE
     # Connect using an Azure Automation Run As Account
