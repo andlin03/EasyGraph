@@ -102,8 +102,8 @@
             Get-EasyGraphAuthToken
         }
 
-        if ($ContentType -like 'application/json*' -and $Body) {
-            $Body = $Body | ConvertTo-Json
+        if ($ContentType -match '^application/json' -and $Body) {
+            $Body = $Body | ConvertTo-Json -Depth 100
             $Body = [System.Text.Encoding]::UTF8.GetBytes($Body)
         }
 
@@ -138,7 +138,7 @@
                 $ResponseStatus = $Response.StatusCode
 
                 switch -Regex ($Response.Headers.'Content-Type') {
-                    'application/json' {
+                    '^application/json' {
                         $ResponseContent = $Response.Content | ConvertFrom-Json
                     }
                     default {
