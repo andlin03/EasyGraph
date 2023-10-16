@@ -13,6 +13,8 @@ Supported authentication methods:
 * Azure Managed Identities
 * Azure Automation RunAs account
 
+> :exclamation: This repository is no longer updated with new features, since Microsoft has released the Microsoft.Graph PowerShell modules. For new implementations we encourage using Microsoft.Graph instead.
+
 ## Get Started
 
 ### Install the module
